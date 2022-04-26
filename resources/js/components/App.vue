@@ -7,9 +7,23 @@
             label-idle="Drop files here..."
             allow-multiple="true"
             accepted-file-types="image/jpeg, image/png"
-            :files="myFiles"
             @init="handleFilePondInit"
+            @processfile="handleUploadProccess"
         />
+        <div>
+            <div class="text-3xl text-blue-400 font-semibold text-center p-5">
+                Images Gallary
+            </div>
+
+            <div class="grid grid-cols-4 gap-3">
+                <div v-for="(image, key) in images" :key="key">
+                    <img
+                        :src="'/storage/images/' + image"
+                        class="w-full h-48"
+                    />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -45,8 +59,17 @@ const FilePond = vueFilePond(
 
 export default {
     name: "app",
+    components: {
+        FilePond,
+    },
     data() {
-        return { myFiles: [] };
+        return { images: [] };
+    },
+    mounted() {
+        axios
+            .get("/images")
+            .then(({ data }) => (this.images = data))
+            .catch((err) => console.log(err));
     },
     methods: {
         handleFilePondInit: function () {
@@ -55,9 +78,14 @@ export default {
             // example of instance method call on pond reference
             this.$refs.pond.getFiles();
         },
-    },
-    components: {
-        FilePond,
+        handleUploadProccess(error, file) {
+            if (error) {
+                console.log(error);
+                return;
+            }
+
+            this.images = [JSON.parse(file.serverId).name, ...this.images];
+        },
     },
 };
 </script>

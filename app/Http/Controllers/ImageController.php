@@ -11,6 +11,10 @@ class ImageController extends Controller
     {
         return view('images.index');
     }
+    public function show()
+    {
+        return Image::latest()->pluck('name')->toArray();
+    }
     public function store()
     {
         $file_path =  request()->file('image')->store('public/images');

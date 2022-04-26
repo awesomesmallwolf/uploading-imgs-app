@@ -19467,6 +19467,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var filepond_plugin_image_preview_dist_filepond_plugin_image_preview_esm_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js */ "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js");
 /* harmony import */ var filepond_dist_filepond_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! filepond/dist/filepond.min.css */ "./node_modules/filepond/dist/filepond.min.css");
 /* harmony import */ var filepond_plugin_image_preview_dist_filepond_plugin_image_preview_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css */ "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 // Import FilePond
  // Import plugins
 
@@ -19489,20 +19501,38 @@ __webpack_require__.r(__webpack_exports__);
 var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_0___default()(filepond_plugin_file_validate_type_dist_filepond_plugin_file_validate_type_esm_js__WEBPACK_IMPORTED_MODULE_1__["default"], filepond_plugin_image_preview_dist_filepond_plugin_image_preview_esm_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "app",
+  components: {
+    FilePond: FilePond
+  },
   data: function data() {
     return {
-      myFiles: []
+      images: []
     };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get("/images").then(function (_ref) {
+      var data = _ref.data;
+      return _this.images = data;
+    })["catch"](function (err) {
+      return console.log(err);
+    });
   },
   methods: {
     handleFilePondInit: function handleFilePondInit() {
       console.log("FilePond has initialized"); // example of instance method call on pond reference
 
       this.$refs.pond.getFiles();
+    },
+    handleUploadProccess: function handleUploadProccess(error, file) {
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      this.images = [JSON.parse(file.serverId).name].concat(_toConsumableArray(this.images));
     }
-  },
-  components: {
-    FilePond: FilePond
   }
 });
 
@@ -19524,6 +19554,17 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "mx-20"
 };
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "text-3xl text-blue-400 font-semibold text-center p-5"
+}, " Images Gallary ", -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
+  "class": "grid grid-cols-4 gap-3"
+};
+var _hoisted_4 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_file_pond = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("file-pond");
 
@@ -19534,11 +19575,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "label-idle": "Drop files here...",
     "allow-multiple": "true",
     "accepted-file-types": "image/jpeg, image/png",
-    files: $data.myFiles,
-    onInit: $options.handleFilePondInit
+    onInit: $options.handleFilePondInit,
+    onProcessfile: $options.handleUploadProccess
   }, null, 8
   /* PROPS */
-  , ["files", "onInit"])]);
+  , ["onInit", "onProcessfile"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.images, function (image, key) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: key
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: '/storage/images/' + image,
+      "class": "w-full h-48"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_4)]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])]);
 }
 
 /***/ }),
