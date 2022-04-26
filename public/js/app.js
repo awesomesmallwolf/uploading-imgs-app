@@ -19474,7 +19474,17 @@ __webpack_require__.r(__webpack_exports__);
  // Import styles
 
 
- // Create FilePond component
+
+(0,vue_filepond__WEBPACK_IMPORTED_MODULE_0__.setOptions)({
+  server: {
+    process: {
+      url: "./upload",
+      headers: {
+        "X-CSRF-TOKEN": document.head.querySelector("meta[name='csrf_token']").content
+      }
+    }
+  }
+}); // Create FilePond component
 
 var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_0___default()(filepond_plugin_file_validate_type_dist_filepond_plugin_file_validate_type_esm_js__WEBPACK_IMPORTED_MODULE_1__["default"], filepond_plugin_image_preview_dist_filepond_plugin_image_preview_esm_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -19518,7 +19528,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_file_pond = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("file-pond");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_file_pond, {
-    name: "test",
+    name: "image",
     ref: "pond",
     "class-name": "my-pond",
     "label-idle": "Drop files here...",

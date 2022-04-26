@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Image Uploading With Vue and Laravel</title>
+  <meta name="csrf_token" content="{{csrf_token()}}" />
 </head>
 
 <body>

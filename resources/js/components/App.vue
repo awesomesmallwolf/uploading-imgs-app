@@ -1,7 +1,7 @@
 <template>
     <div class="mx-20">
         <file-pond
-            name="test"
+            name="image"
             ref="pond"
             class-name="my-pond"
             label-idle="Drop files here..."
@@ -15,7 +15,7 @@
 
 <script>
 // Import FilePond
-import vueFilePond from "vue-filepond";
+import vueFilePond, { setOptions } from "vue-filepond";
 
 // Import plugins
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js";
@@ -25,6 +25,18 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview/dist/filep
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
+setOptions({
+    server: {
+        process: {
+            url: "./upload",
+            headers: {
+                "X-CSRF-TOKEN": document.head.querySelector(
+                    "meta[name='csrf_token']"
+                ).content,
+            },
+        },
+    },
+});
 // Create FilePond component
 const FilePond = vueFilePond(
     FilePondPluginFileValidateType,
